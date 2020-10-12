@@ -1,5 +1,5 @@
 -module(proyecto).
--export([poblacion/1, mezclar/1, poblacion_aux/1, f1/3, suma_colisiones/2, aptitud/3]).
+-export([poblacion/1, aptitud/3, cruces/4]).
 
 %% N = Reinas
 %% Dominio: Un número natural
@@ -59,5 +59,41 @@ aptitud([H|T], N, C, R) -> aptitud(T, N, C-1, [suma_colisiones(H,N)|R] ).
 %% Una Lista(L) de tamaño = Población total, donde cada elemento de L indica que tan apto es un individuo, 
 %% entre más pequeño el elemento, mejor es el individuo(sublista) de la población(P1)
 %% Los valores de L son calculados en función de un target
-%% El target para este ejercicio es que las reinas no se ataquen, por lo cada individuo calcula cuantas colisiones 
+%% El target para este ejercicio es que las reinas no se ataquen, por lo que cada individuo calcula cuantas colisiones 
 %% provocan sus genes(elementos de la lista)
+
+cruces(L, E, N, C) -> cruce(L, N, C-1, [E]).
+cruce(_, _, 0, R) -> lists:reverse(R);
+cruce(L, N, C, R) ->  cruce(L, N, C-1, [cruce_aux(L, N, N*4)|R]).
+
+cruce_aux(L, N, C) -> X1 = rand:uniform(C),
+                      X2 = rand:uniform(C), 
+                      padres(L, N, X1, X2).
+
+padres(L, N, X1, X2) -> P1 = n_pos(L, X1), 
+                        P2 = n_pos(L, X2),
+                        reproduccion(P1, P2, N).
+
+reproduccion(P1, P2, N) -> L = split(P1, trunc(N/2)), reproducirse(P2, lists:reverse(L)).
+reproducirse([], R) -> lists:reverse(R);
+reproducirse([H|T], R) -> case lists:member(H, R) of 
+                          true -> reproducirse(T, R); 
+                          false -> reproducirse(T, [H|R]) end.
+
+%% lista y posición
+n_pos(L,N) -> n_pos(L,N,1).
+n_pos([H|_],N,N) -> H;
+n_pos([_|T],N,C) -> n_pos(T,N,C+1).
+
+% lista y posicion a split
+split(L, N) -> split(L, N, 0, [], []).
+split([], _, _, L1, _)-> lists:reverse(L1);
+split([H|T], N, C, L1, []) when N > C -> split(T, N, C+1, [H|L1], []);
+split([H|T], N, C, L1, L2)-> split(T,N, C+1, L1, [H|L2]).
+
+
+%% To test Crossover
+%% Parámetros: Población, Elemento Alfa, Reinas, Cantidad de población
+%% Esperado: Una lista de tamaño igual a la cantidad de población con el cruce entre individuos
+%% proyecto:cruces([[2, 1, 3, 4], [4, 3, 2, 1], [3, 1, 2, 4], [1, 2, 4, 3], [1, 2, 4, 3], [4, 2, 3, 1], [2, 3, 1, 4], [3, 4, 1, 2], [1, 4, 3, 2], [3, 4, 2, 1], [3, 2, 4, 1], [4, 2, 1, 3], [2, 1, 3, 4], [3, 2, 4, 1], [2, 1, 4, 3], [4, 2, 1, 3]], [4,2,3,1], 4, 16).
+%% Mutaciones
