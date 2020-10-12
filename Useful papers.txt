@@ -1,0 +1,16 @@
+
+🤓️GA Solver:
+https://towardsdatascience.com/genetic-algorithm-vs-backtracking-n-queen-problem-cdf38e15d73f
+
+🤯️GA Experimental Results:
+https://arxiv.org/pdf/1802.02006.pdf
+
+🤑️Crossover Types:
+https://www.researchgate.net/publication/315175882_Crossover_Operators_in_Genetic_Algorithms_A_Review
+
+😵️ Order 1 Crossover:
+http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/Order1CrossoverOperator.aspx
+
+🤠️ GA's in Erlang
+https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.1066.156&rep=rep1&type=pdf
+
