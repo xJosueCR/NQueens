@@ -1,4 +1,6 @@
 -module(proyecto).
+-define(MUTATION, 0.05).
+-define(MAX_CRUCES, 800).
 -export([poblacion/1, aptitud/3, cruces/4]).
 
 %% N = Reinas
@@ -15,11 +17,6 @@ poblacion_aux(N) -> mezclar(lists:seq(1, N)).
 %% Dominio: Una lista
 %% Codominio: La lista ordenada de manera aleatoria
 mezclar(L) when is_list(L) -> [Y||{_,Y} <- lists:sort([ {rand:uniform(), N} || N <- L])].
-
-%% cruces(X,N) -> lists:flatten(lists:duplicate(N,X)).
-
-
-%% obtener un elemento en una posición lists:nth(Pos, Lista)
 
 %% Las siguientes 3 funciones son encargadas de realizar la función fitness sobre la población 
 
@@ -70,20 +67,21 @@ cruce_aux(L, N, C) -> X1 = rand:uniform(C),
                       X2 = rand:uniform(C), 
                       padres(L, N, X1, X2).
 
-padres(L, N, X1, X2) -> P1 = n_pos(L, X1), 
-                        P2 = n_pos(L, X2),
+padres(L, N, X1, X2) -> P1 = lists:nth(X1, L), 
+                        P2 = lists:nth(X2, L),
                         reproduccion(P1, P2, N).
 
-reproduccion(P1, P2, N) -> L = split(P1, trunc(N/2)), reproducirse(P2, lists:reverse(L)).
+reproduccion(P1, P2, N) -> L = split(P1, trunc(N/2)), 
+                           Hijo = reproducirse(P2, lists:reverse(L)),
+                           Rand = rand:uniform(),
+                           case Rand =< ?MUTATION of
+                           true  -> mutacion(Hijo, N);
+                           false ->  Hijo end.
+
 reproducirse([], R) -> lists:reverse(R);
 reproducirse([H|T], R) -> case lists:member(H, R) of 
                           true -> reproducirse(T, R); 
                           false -> reproducirse(T, [H|R]) end.
-
-%% lista y posición
-n_pos(L,N) -> n_pos(L,N,1).
-n_pos([H|_],N,N) -> H;
-n_pos([_|T],N,C) -> n_pos(T,N,C+1).
 
 % lista y posicion a split
 split(L, N) -> split(L, N, 0, [], []).
@@ -97,3 +95,21 @@ split([H|T], N, C, L1, L2)-> split(T,N, C+1, L1, [H|L2]).
 %% Esperado: Una lista de tamaño igual a la cantidad de población con el cruce entre individuos
 %% proyecto:cruces([[2, 1, 3, 4], [4, 3, 2, 1], [3, 1, 2, 4], [1, 2, 4, 3], [1, 2, 4, 3], [4, 2, 3, 1], [2, 3, 1, 4], [3, 4, 1, 2], [1, 4, 3, 2], [3, 4, 2, 1], [3, 2, 4, 1], [4, 2, 1, 3], [2, 1, 3, 4], [3, 2, 4, 1], [2, 1, 4, 3], [4, 2, 1, 3]], [4,2,3,1], 4, 16).
 %% Mutaciones
+
+%% L = Población, N = Reinas, M = Mutaciones, C = Cantidad de población
+mutacion(Picked, N) ->  Gen1 = rand:uniform(N),
+                        Gen2 = rand:uniform(N),
+                        erlang:display('mutation found'),
+                        erlang:display(Picked),
+                        mutar(lists:nth(Gen1, Picked), lists:nth(Gen2, Picked), Picked).
+ 
+
+mutar(Gen1, Gen1, List) -> List;
+mutar(Gen1, Gen2, List) -> {P1, P2} = {min(Gen1,Gen2), max(Gen1,Gen2)},
+                           {L1, [Elem1 | T1]} = lists:split(P1-1, List),
+                           {L2, [Elem2 | L3]} = lists:split(P2-P1-1, T1), 
+                           lists:append([L1, [Elem2], L2, [Elem1], L3]).
+
+
+%% mostrar solución 
+mostrarSolucion(L) -> L.
