@@ -1,7 +1,8 @@
 -module(proyecto).
 -define(MUTATION, 0.05).
 -define(MAX_CRUCES, 800).
--export([poblacion/1, aptitud/3, cruces/4]).
+-import(lists,[min/1]).
+-export([poblacion/1, aptitud/3, cruces/4, geneticosNReinas/1, min_pos/3]).
 
 %% N = Reinas
 %% Dominio: Un número natural
@@ -113,3 +114,21 @@ mutar(Gen1, Gen2, List) -> {P1, P2} = {min(Gen1,Gen2), max(Gen1,Gen2)},
 
 %% mostrar solución 
 mostrarSolucion(L) -> L.
+
+geneticosNReinas(N) -> 
+                    Poblacion = poblacion(N),
+                    calcular(?MAX_CRUCES, Poblacion, N, N*4).
+
+
+calcular(0, _, _, _) -> [];
+calcular(Cruces, Poblacion, N, C) -> Aptitudes = aptitud(Poblacion, N, C),
+                                     Min = trunc(lists:min(Aptitudes)),      
+                                     Pos = min_pos(Aptitudes, Min, 1),
+                                     Elite = lists:nth(Pos, Poblacion),
+                                     case Min == 0 of
+                                     true -> mostrarSolucion(Elite);
+                                     false -> N_Poblacion = cruces(Poblacion, Elite, N, C),
+                                              calcular(Cruces-1, N_Poblacion, N, C) end.
+
+min_pos([H|_], H, R)-> R;
+min_pos([_|T], N, R)->min_pos(T, N, R+1).
