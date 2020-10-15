@@ -2,7 +2,7 @@
 -define(MUTATION, 0.05).
 -define(MAX_CRUCES, 800).
 -import(lists,[min/1]).
--export([poblacion/1, aptitud/3, cruces/4, geneticosNReinas/1, min_pos/3]).
+-export([poblacion/1, aptitud/3, cruces/4, geneticosNReinas/1, min_pos/3, pos_elemento/2]).
 
 %% N = Reinas
 %% Dominio: Un número natural
@@ -113,7 +113,16 @@ mutar(Gen1, Gen2, List) -> {P1, P2} = {min(Gen1,Gen2), max(Gen1,Gen2)},
 
 
 %% mostrar solución 
-mostrarSolucion(L) -> L.
+mostrarSolucion(_, _, 0, _, R) -> lists:reverse(R);
+mostrarSolucion(L, N, S, C, R) -> Pos = pos_elemento(S, L),
+                                  QL = generate(Pos, N),
+                                  mostrarSolucion(L, N, S-1, C, [QL|R]).
+
+generate(Pos, N) -> generate(Pos, N, []).
+generate(_, 0, R)-> R;
+generate(Pos, N, R) -> case Pos == N of
+                       true -> generate(Pos, N-1, ['♕'|R]);
+                       false -> generate(Pos, N-1, ['■'|R]) end.
 
 geneticosNReinas(N) -> 
                     Poblacion = poblacion(N),
@@ -126,9 +135,13 @@ calcular(Cruces, Poblacion, N, C) -> Aptitudes = aptitud(Poblacion, N, C),
                                      Pos = min_pos(Aptitudes, Min, 1),
                                      Elite = lists:nth(Pos, Poblacion),
                                      case Min == 0 of
-                                     true -> mostrarSolucion(Elite);
+                                     true -> mostrarSolucion(Elite, N, N, Cruces, []);
                                      false -> N_Poblacion = cruces(Poblacion, Elite, N, C),
                                               calcular(Cruces-1, N_Poblacion, N, C) end.
 
 min_pos([H|_], H, R)-> R;
 min_pos([_|T], N, R)->min_pos(T, N, R+1).
+
+pos_elemento(N, L) -> pos_elemento(N, 1, L).
+pos_elemento(H, N, [H|_]) -> N;
+pos_elemento(N, P, [_|R]) -> pos_elemento(N, P+1, R).
