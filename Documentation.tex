@@ -15,7 +15,7 @@ UNIVERSIDAD NACIONAL COSTA RICA \\
 \begin{figure}[htp]
 \centering
 %\includegraphics[scale=0.50]{foto.jpg}
-\includegraphics[width=6cm]{../240px-UNA.png} 
+%\includegraphics[width=6cm]{../240px-UNA.png} 
 \label{foto}
 \end{figure}
 \end{large}
@@ -37,7 +37,7 @@ NQueens
 \begin{figure}[htp]
 \centering
 %\includegraphics[scale=0.50]{foto.jpg}
-\includegraphics[width=4cm]{../nqueens.png} 
+%\includegraphics[width=4cm]{../nqueens.png} 
 \label{foto}
 \end{figure}
 \begin{large}
@@ -75,6 +75,12 @@ II CICLO\\
  	
 \pagebreak
 \section{Introducción}
+
+	El presente trabajo tiene como propósito presentar la solución del famoso problema de las n-reinas, el cual consiste en colocar $N $ reinas en un tablero de $NXN $ tal que ninguna de estas pueda ser “atacada” por otra reina y el debido análisis del proceso de resolución, el cual se hará mediante el uso del backtracking y los algoritmos genéticos en dos distintos paradigmas funcionales.
+
+	Para comprender la resolución de este problema es necesario tener en cuenta el concepto de backtracking o “vuelta atrás”, el cual consiste en la búsqueda sistemática de posibles soluciones, donde a partir de un caso base se crean sub-casos  los cuales a su vez son tomados como base para nuevas posibles soluciones expandiéndose hasta encontrar un camino sin salida o una solución apropiada, dado esto ,el algoritmo da un paso hacia atrás con el fin de continuar con el análisis de la siguiente posibilidad. En el caso de los algoritmos genéticos, es una técnica de resolución de problemas que se basa en la evolución biológica, donde se inicia con un conjunto de posibles soluciones denominado población y una métrica llamada función de aptitud que permite evaluar cada posible solución, a partir de esto, se seleccionan los mejores candidatos de la población los cuales generaran otro grupo de posibles soluciones la cual es considerada la “siguiente generación”, este ciclo continua de tal manera que es posible que alguna de las generaciones presente una solución adecuada para el problema.  
+
+	Entre las características mas importantes de la aplicación del backtracking para la resolución de este problema podemos mencionar el hecho de que es capaz de calcular todas las posibles soluciones (a costo de un tiempo mayor de resolución) y su facilidad de implementación, por el lado contrario, el algoritmo genético es capaz de encontrar una única solución  para cualquier cantidad de reinas en un tiempo mucho menor en comparación al del backtracking (esto será analizado mas adelante), sin embargo su implementación resulta un poco mas complicada.
 \bigskip
 \bigskip 
 
@@ -105,9 +111,40 @@ II CICLO\\
 
 \pagebreak
 \section{Descripción de la solución}
+\begin{enumerate}
+\item  \textbf{Scheme Backtracking}
+
+Para esta solución se toma en cuenta un tablero vacío como base para la exploración de las distintas soluciones, donde colocamos una reina en la primer casilla de la primer columna, ahora siendo este el nuevo caso base, colocamos una reina en la primer casilla de la segunda columna, evaluamos la posible solución, la cual en este caso no lo es, ya que se encuentra en la misma fila que la reina colocada en la anterior columna del tablero, así que  “damos un paso atrás” , volviendo al caso donde teníamos una reina en la primer columna, con el fin de tomar un nuevo camino, lo cual seria colocar una reina en la segunda casilla de la segunda columna y de la misma forma que el caso anterior, evaluamos, cuando esta evaluación da positiva avanzamos a colocar una reina en la columna 3, 4, 5… N, de la misma forma, los “pasos hacia atrás”  están definidos en el rango de 1 a N casillas en las de una misma columna (filas del tablero para la misma columna), cuando estas posibilidades se han agotado, se da un paso hacia atrás de tal manera que debemos continuar la exploración de las posibilidades en la columna anterior, y así hasta que se agoten todas las posibilidades.
+
+\begin{figure}[htp]
+\centering
+\graphicspath{ {imagenes/} }
+\includegraphics[scale=0.50]{general.png}
+%\includegraphics[width=6cm]{../imagenes/general.png}
+\caption{Sub árbol de soluciones}
+\label{foto}
+\end{figure}
+
+Para darle solución a este problema a través de la programación, no es necesario hablar de un tablero y reinas, podemos simular estos con un arreglo unidimensional de tamaño N (listas en este caso), donde cada campo representa la columna del “tablero” y un entero dentro de dicho campo nos dirá el numero de fila, básicamente hablamos de posiciones.
+
+\begin{figure}[htp]
+\centering
+\graphicspath{ {imagenes/} }
+\includegraphics[scale=0.70]{Vectores.png}
+%\includegraphics[width=6cm]{../imagenes/general.png}
+\caption{Representación de tablero en vector solución}
+\label{foto}
+\end{figure}
+
+El proceso de validación se da mediante las “coordenadas” o posiciones que representa la posible lista solución, ya que el entero dentro de una posición x dentro de la lista representa la fila, simplemente verificamos que ningún elemento dentro de la lista se repita, y como posición de la lista representa la columna, nunca habrá que preocuparse porque esta se repita. Para el caso de la verificación en diagonal evaluamos conforme insertarnos en la lista solución, se toma E como la columna del nuevo elemento, N como el valor de la columna anterior, por lo que tenemos que para que no se ataque deba seguir la siguiente formula: $| N - E | \neq | V[N] – V[E]|$ donde $V[N],V[E]$ representa el elemento de la lista en la posición N y E, esto debido a que los valores de las posiciones de un tablero en diagonal poseen la propiedad de que al restarse dan el mismo resultado, esto para columnas seguidas.
+
+Con el fin de explorar todas las posibilidades creamos una lista de tamaño 1 que contiene como único elemento el 1, haciendo referencia a que la reina se encuentra en la posición (1,1) del tablero, luego debemos evaluar todas las posibilidades de una lista de tamaño 2, por lo que agregamos un elemento a la lista en la posición 2, con el numero 1 en dicha posición,  validamos si el vector es valido y como podemos observar tenemos las posiciones (1,1) y (2,1) lo que nos indica que es invalido ya que están en la misma fila, así que haciendo uso del backtracking regresamos al estado anterior el cual era una lista con un 1 como único elemento, y ahora en vez de agregar un 1 continuamos con un 2, por lo que ahora tendríamos una lista con las posiciones (1,1) y (2,2) el cual tampoco es una opción valida ya que dichas posiciones están en la misma diagonal, nuevamente se hace el paso hacia atrás y se agrega a la lista un 3 por lo que ahora tenemos las posiciones (1,1) y (2,3) la cual es una opción valida para continuar, por lo que agregamos nuevamente un 1 a la lista por lo que tendríamos las posiciones (1,1), (2,3) y (1,1), este proceso se repite para N columnas y N filas por lo que, cuando tengamos una lista de tamaño N y sea una opción valida, representara una lista solución. Se podría decir que el proceso de backtracking arma todas las combinaciones de 1 a $N$ posibles de una lista solución de manera controlada, ya que en muchos de los casos, se interrumpe la operación cuando la combinación, o la porción combinacional es invalida.
+
+\end{enumerate}
 
 \pagebreak
 \section{Resultados de las pruebas}
+
 
 \pagebreak
 \section{Conclusiones}
