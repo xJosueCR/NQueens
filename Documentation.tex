@@ -15,8 +15,7 @@
 UNIVERSIDAD NACIONAL COSTA RICA \\
 \begin{figure}[htp]
 \centering
-%\includegraphics[scale=0.50]{foto.jpg}
-%\includegraphics[width=6cm]{../240px-UNA.png} 
+\includegraphics[width=4cm]{imagenes/240px-UNA.png} 
 \label{foto}
 \end{figure}
 \end{large}
@@ -37,9 +36,7 @@ NQueens
 \end{large}
 \begin{figure}[htp]
 \centering
-%\includegraphics[scale=0.50]{foto.jpg}
-%\includegraphics[width=4cm]{../nqueens.png} 
-\label{foto}
+\includegraphics[width=4cm]{imagenes/queens.png} 
 \end{figure}
 \begin{large}
 \vspace*{1cm}
@@ -114,7 +111,8 @@ Dentro de los IDE's utilizados para realizar la escritura del código que produj
 
 \pagebreak
 \section{Descripción de la solución}
-<<<<<<< Updated upstream
+\bigskip
+	A continuación se realiza una descripción detallada de las soluciones desarrolladas para resolver el problema de NReinas.
 \begin{enumerate}
 \item  \textbf{Scheme Backtracking}
 
@@ -143,10 +141,8 @@ Para darle solución a este problema a través de la programación, no es necesa
 El proceso de validación se da mediante las “coordenadas” o posiciones que representa la posible lista solución, ya que el entero dentro de una posición x dentro de la lista representa la fila, simplemente verificamos que ningún elemento dentro de la lista se repita, y como posición de la lista representa la columna, nunca habrá que preocuparse porque esta se repita. Para el caso de la verificación en diagonal evaluamos conforme insertarnos en la lista solución, se toma E como la columna del nuevo elemento, N como el valor de la columna anterior, por lo que tenemos que para que no se ataque deba seguir la siguiente formula: $| N - E | \neq | V[N] – V[E]|$ donde $V[N],V[E]$ representa el elemento de la lista en la posición N y E, esto debido a que los valores de las posiciones de un tablero en diagonal poseen la propiedad de que al restarse dan el mismo resultado, esto para columnas seguidas.
 
 Con el fin de explorar todas las posibilidades creamos una lista de tamaño 1 que contiene como único elemento el 1, haciendo referencia a que la reina se encuentra en la posición (1,1) del tablero, luego debemos evaluar todas las posibilidades de una lista de tamaño 2, por lo que agregamos un elemento a la lista en la posición 2, con el numero 1 en dicha posición,  validamos si el vector es valido y como podemos observar tenemos las posiciones (1,1) y (2,1) lo que nos indica que es invalido ya que están en la misma fila, así que haciendo uso del backtracking regresamos al estado anterior el cual era una lista con un 1 como único elemento, y ahora en vez de agregar un 1 continuamos con un 2, por lo que ahora tendríamos una lista con las posiciones (1,1) y (2,2) el cual tampoco es una opción valida ya que dichas posiciones están en la misma diagonal, nuevamente se hace el paso hacia atrás y se agrega a la lista un 3 por lo que ahora tenemos las posiciones (1,1) y (2,3) la cual es una opción valida para continuar, por lo que agregamos nuevamente un 1 a la lista por lo que tendríamos las posiciones (1,1), (2,3) y (1,1), este proceso se repite para N columnas y N filas por lo que, cuando tengamos una lista de tamaño N y sea una opción valida, representara una lista solución. Se podría decir que el proceso de backtracking arma todas las combinaciones de 1 a $N$ posibles de una lista solución de manera controlada, ya que en muchos de los casos, se interrumpe la operación cuando la combinación, o la porción combinacional es invalida.
+\item  \textbf{Erlang Algoritmos Genéticos} \\
 
-\end{enumerate}
-
-=======
 Para describir la solución de algoritmos genéticos, primero es importante definir algunos conceptos básicos en términos del problema para que esta explicación sea más entendible. 
 \begin{itemize}
 \item Algoritmo genético: es hacer uso de mecanismos que simulan la evolución de las especies de la biología para formular los pasos que describen la búsqueda de una solución a un problema concreto, es una técnica de inteligencia artificial inspirada en la idea de que sobrevive el mejor adaptado a las condiciones.
@@ -159,9 +155,8 @@ Para describir la solución de algoritmos genéticos, primero es importante defi
 \item Función fitness: es un función que $"evalua"$ a los individuos de la población y conforme a sus características les otorga mejor o peor calificación, en términos del problema, dicha calificación esta dada de acuerdo a cuantas veces hay colisiones entre cromosomas, entre menores colisiones, mejores probalidades de perdurar. 
 \item Generaciones: son el producto de los cruces de las población, entre más generaciones haya se espera que sea más precisa la aproximación a la respuesta correcta.
 \item Mutación: proceso por el cual un crosoma es alterado, se ha trabajado con un 5\% de probalidad de mutación y la estrategia utilizada se basa en escoger dos posiciones de los cromosomas del individuo e intercambiar dichas posiciones, esto con el fin de preservar el fitness que fue calculado para dicho individuo.
- 
 \end{itemize}
->>>>>>> Stashed changes
+\end{enumerate}
 \pagebreak
 \section{Resultados de las pruebas}
 
