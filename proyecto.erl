@@ -2,7 +2,7 @@
 -define(MUTATION, 0.05).
 -define(MAX_CRUCES, 800).
 -import(lists,[min/1]).
--export([poblacion/1, aptitud/3, cruces/4, geneticosNReinas/1, min_pos/3, pos_elemento/2]).
+-export([poblacion/1, aptitud/3, cruces/4, geneticosNReinas/1, min_pos/3, pos_elemento/2, ejecutar/1]).
 
 %% N = Reinas
 %% Dominio: Un número natural
@@ -145,3 +145,8 @@ min_pos([_|T], N, R)->min_pos(T, N, R+1).
 pos_elemento(N, L) -> pos_elemento(N, 1, L).
 pos_elemento(H, N, [H|_]) -> N;
 pos_elemento(N, P, [_|R]) -> pos_elemento(N, P+1, R).
+
+
+ejecutar(N) -> ejecutar(N, 10).
+ejecutar(_, 0) -> 0;
+ejecutar(N, C) -> geneticosNReinas(N), ejecutar(N, C-1).
