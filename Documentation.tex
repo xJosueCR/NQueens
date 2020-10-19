@@ -78,7 +78,7 @@ II CICLO\\
 
 	Para comprender la resolución de este problema es necesario tener en cuenta el concepto de backtracking o “vuelta atrás”, el cual consiste en la búsqueda sistemática de posibles soluciones, donde a partir de un caso base se crean sub-casos  los cuales a su vez son tomados como base para nuevas posibles soluciones expandiéndose hasta encontrar un camino sin salida o una solución apropiada, dado esto ,el algoritmo da un paso hacia atrás con el fin de continuar con el análisis de la siguiente posibilidad. En el caso de los algoritmos genéticos, es una técnica de resolución de problemas que se basa en la evolución biológica, donde se inicia con un conjunto de posibles soluciones denominado población y una métrica llamada función de aptitud que permite evaluar cada posible solución, a partir de esto, se seleccionan los mejores candidatos de la población los cuales generaran otro grupo de posibles soluciones la cual es considerada la “siguiente generación”, este ciclo continua de tal manera que es posible que alguna de las generaciones presente una solución adecuada para el problema.  
 
-	Entre las características mas importantes de la aplicación del backtracking para la resolución de este problema podemos mencionar el hecho de que es capaz de calcular todas las posibles soluciones (a costo de un tiempo mayor de resolución) y su facilidad de implementación, por el lado contrario, el algoritmo genético es capaz de encontrar una única solución  para cualquier cantidad de reinas en un tiempo mucho menor en comparación al del backtracking (esto será analizado mas adelante), sin embargo su implementación resulta un poco mas complicada.
+	Entre las características mas importantes de la aplicación del backtracking para la resolución de este problema podemos mencionar el hecho de que es capaz de calcular todas las posibles soluciones (a costo de un tiempo mayor de resolución) y su facilidad de implementación, por el lado contrario, el algoritmo genético es capaz de encontrar una única solución  para una cantidad grande de reinas lo que resulta beneficioso sobre el algoritmo de backtracking en estos casos, sin embargo su implementación resulta un poco mas complicada.
 \bigskip
 \bigskip 
 
@@ -132,15 +132,35 @@ Para darle solución a este problema a través de la programación, no es necesa
 \begin{figure}[htp]
 \centering
 \graphicspath{ {imagenes/} }
-\includegraphics[scale=0.70]{Vectores.png}
+\includegraphics[scale=0.50]{Vectores.png}
 %\includegraphics[width=6cm]{../imagenes/general.png}
-\caption{Representación de tablero en vector solución}
+\caption{Representación de tablero en vector solución (columna,fila)}
 \label{foto}
 \end{figure}
 
-El proceso de validación se da mediante las “coordenadas” o posiciones que representa la posible lista solución, ya que el entero dentro de una posición x dentro de la lista representa la fila, simplemente verificamos que ningún elemento dentro de la lista se repita, y como posición de la lista representa la columna, nunca habrá que preocuparse porque esta se repita. Para el caso de la verificación en diagonal evaluamos conforme insertarnos en la lista solución, se toma E como la columna del nuevo elemento, N como el valor de la columna anterior, por lo que tenemos que para que no se ataque deba seguir la siguiente formula: $| N - E | \neq | V[N] – V[E]|$ donde $V[N],V[E]$ representa el elemento de la lista en la posición N y E, esto debido a que los valores de las posiciones de un tablero en diagonal poseen la propiedad de que al restarse dan el mismo resultado, esto para columnas seguidas.
+El proceso de validación se da mediante las “coordenadas” o posiciones que representa la posible lista solución, ya que el entero dentro de una posición x dentro de la lista representa la fila, simplemente verificamos que ningún elemento dentro de la lista se repita, y como posición de la lista representa la columna, nunca habrá que preocuparse porque esta se repita. Para el caso de la verificación en diagonal evaluamos conforme insertarnos en la lista solución, el nuevo elemento no debería estar en una diagonal perteneciente a otra reina, por lo que comparamos el elemento por insertar contra todos los elementos anteriores de la lista, basando el calculo en la propiedad de que entre 2 coordenadas de una misma diagonal existe un N de diferencia para $x_1,x_2$ y $y_1,y_2$ por lo que la comparación: $|x_1 – x_2| == |y_1 – y_2|$  nos dice si se encuentra en la misma diagonal o no.
+
+\begin{figure}[htp]
+\centering
+\graphicspath{ {imagenes/} }
+\includegraphics[scale=0.50]{validaciones.png}
+%\includegraphics[width=6cm]{../imagenes/general.png}
+\caption{Validación por filas y diagonales}
+\label{foto}
+\end{figure}
 
 Con el fin de explorar todas las posibilidades creamos una lista de tamaño 1 que contiene como único elemento el 1, haciendo referencia a que la reina se encuentra en la posición (1,1) del tablero, luego debemos evaluar todas las posibilidades de una lista de tamaño 2, por lo que agregamos un elemento a la lista en la posición 2, con el numero 1 en dicha posición,  validamos si el vector es valido y como podemos observar tenemos las posiciones (1,1) y (2,1) lo que nos indica que es invalido ya que están en la misma fila, así que haciendo uso del backtracking regresamos al estado anterior el cual era una lista con un 1 como único elemento, y ahora en vez de agregar un 1 continuamos con un 2, por lo que ahora tendríamos una lista con las posiciones (1,1) y (2,2) el cual tampoco es una opción valida ya que dichas posiciones están en la misma diagonal, nuevamente se hace el paso hacia atrás y se agrega a la lista un 3 por lo que ahora tenemos las posiciones (1,1) y (2,3) la cual es una opción valida para continuar, por lo que agregamos nuevamente un 1 a la lista por lo que tendríamos las posiciones (1,1), (2,3) y (1,1), este proceso se repite para N columnas y N filas por lo que, cuando tengamos una lista de tamaño N y sea una opción valida, representara una lista solución. Se podría decir que el proceso de backtracking arma todas las combinaciones de 1 a $N$ posibles de una lista solución de manera controlada, ya que en muchos de los casos, se interrumpe la operación cuando la combinación, o la porción combinacional es invalida.
+
+\begin{figure}[htp]
+\centering
+\graphicspath{ {imagenes/} }
+\includegraphics[scale=0.60]{analisisv.png}
+%\includegraphics[width=6cm]{../imagenes/general.png}
+\caption{Proceso de construcción de una lista solución}
+\label{foto}
+\end{figure}
+
+\pagebreak
 \item  \textbf{Erlang Algoritmos Genéticos} \\
 
 Para describir la solución de algoritmos genéticos, primero es importante definir algunos conceptos básicos en términos del problema para que esta explicación sea más entendible. 
@@ -160,9 +180,41 @@ Para describir la solución de algoritmos genéticos, primero es importante defi
 \pagebreak
 \section{Resultados de las pruebas}
 
+Tomando en cuenta el hecho de que el algoritmo de backtracking está diseñado para obtener todas las soluciones posibles y el de genéticos solamente una solución cada vez que este se corre, decidimos realizar 2 tipos de pruebas distintas, tomando en cuenta N = 5...15, donde una de las pruebas se realizó con el fin de obtener una única solución y otra donde se calcularon 5 soluciones por cada N reinas, esto para entrar en la fortaleza del algoritmo genético y también aprovechar la propiedad del backtracking para encontrar mas de una solución, sin embargo cabe destacar que no se hicieron pruebas solicitando mas de 5 soluciones ya que para el algoritmo genetico existe una probabilidad de que no encuentre una solucion en su ejecucion debido al agotamiento de cruces establecidos, el cual aunque sea un valor muy grande, existe la posibilidad de que se agote y no de respuesta valida. Los resultados del tiempo de ejecución pueden apreciarse en la figura 5 y 6.  \\
+
+\begin{figure}[htp]
+\centering
+\graphicspath{ {imagenes/} }
+\includegraphics[scale=0.60]{analisis1.png}
+%\includegraphics[width=6cm]{../imagenes/general.png}
+\caption{Grafico con tiempos de corrida para una solución}
+\label{foto}
+\end{figure}
+\pagebreak
+
+\begin{figure}[htp]
+\centering
+\graphicspath{ {imagenes/} }
+\includegraphics[scale=0.60]{analisis5.png}
+%\includegraphics[width=6cm]{../imagenes/general.png}
+\caption{Grafico con tiempos de corrida para 5 soluciónes}
+\label{foto}
+\end{figure}
+
+Basándonos solamente en lo que indican las graficas podemos concluir que la implementación con algoritmos genéticos, es mas lenta que la implementación con backtracking, está ultima pudo calcular 1 solución para 15 reinas en menos de 1 segundo, esto en parte se debe a que el escenario propuesto es ventajoso para el backtracking, esto debido a la manera sistemática en la que calcula la solución, sin embargo, para un N mayor a 20, incluso una solución es muy difícil de obtener, siendo 25 el limite de reinas para el que logramos obtener una única solución.
+
+También es importante mencionar el hecho de que el algoritmos está diseñado para calcular todas las posibles soluciones por lo que calcular una cantidad limitada de estas, mejorará su desempeño, si se desease calcular todas las posibilidades, este algoritmo comenzaría a quedarse corto desde el calculo para n = 12, el cual tiene 14200 soluciones, y que tomó 3,8 minutos para ser resuelto, En cambio, la implementación del algoritmo genético está diseñado para obtener una única solución, trabajando en un modelo que simula la evolución y que utiliza la aleatoriedad como un punto importante para la evolución constaste de las posibles soluciones, esto implica que existe una probabilidad mucho mayor de obtener una solución para cualquier N reinas incluyendo las mayores a 25, punto de muerte en sentido de optimización para el algoritmo de backtracking.
+Respecto a la velocidad con la que se encuentra una única solución, para el algoritmo de backtracking, suele ser constante o muy similar para un mismo valor N, esto debido a que siempre se calculara primero la misma solución en el mismo recorrido sistemático sobre la metodología de la implementación  en cada ejecución del programa, ademas no es usual obtener un mejor tiempo para una solución N+1, esto solo es capaz de suceder para N menores a 5, a partir de esto los tiempos de ejecución aumentan significativamente entre soluciones. Por otro lado el algoritmo genético, debido al nivel de aleatoriedad que este implementa, no garantiza que el resultado sea el mismo cada vez que se ejecuta, ni tampoco su tiempo de ejecución, a como puede encontrar una solución en fracción de segundo, puede tardar una cantidad de tiempo significativa, y esto se puede observar al ejecutar M veces el programa para la misma cantidad de reinas,  incluso mediante la grafica para 1 solución podemos observar como el tiempo de ejecución para 12 reinas es mayor que el de 15, lo cual nunca sucede para backtracking.
+Con estas observaciones podemos concluir que el algoritmo de backtracking es superior al algoritmo genético cuando lo que deseamos es obtener una solución para un N menor a 25,  e incluso para obtener todas sus soluciones cuando el N es mas pequeño que 13, incluyendo el beneficio para una cierta situación de que las soluciones serán siempre las mismas, por otro lado el algoritmo genético es una opción mas viable para N muy grandes, también cuando se desea observar una solución distinta para cada ejecución sin necesidad de tomarse la molestia de calcular todas las respuestas posibles.
 
 \pagebreak
 \section{Conclusiones}
+
+Tomando en cuenta lo expuesto, podemos concluir que la implementación de ambos algoritmos es completamente funcional, mas no optima en todas las situaciones para las que esta pueda ser utilizada, esto debido a sus enfoques de implementación y el sistema utilizado por cada algoritmo para encontrar la solución, así mismo un punto importante es la facilidad de implementación de dichos algoritmos, en la cual el backtracking resulta ser muy sencillo en comparación al algoritmo genético.
+
+El calculo sistemático que provee el backtracking resulta en una velocidad mayor y constante, también nos permite tener al alcance todas o unas cuantas  soluciones posibles, las cuales siempre serán las mismas, en el mismo orden, claro, todo esto enfocándonos al calculo de soluciones para una cantidad no muy grande de reinas; Por otro lado, cuando nos referimos a los algoritmos genéticos para la implementación de este problema, podemos mencionar la ventaja superior en el calculo de soluciones para situaciones en las que el numero de soluciones necesarias sea muy pequeña pero la cantidad de reinas sea muy grande, también mencionar el hecho de que su aleatoriedad que aunque altera el tiempo de ejecución para una misma cantidad de reinas,  resulta muy útil cuando se necesitan soluciones distintas para una misma reina.
+
+Refiriéndonos a los lenguajes utilizados, Erlang posee una sintaxis mucho mas sencilla de entender y utilizar, especialmente para la implementación del algoritmo genético, ya que este necesita manejar aleatoriedad, construcción de listas e interpretación de evaluaciones constantes, para conseguir la metodología evolutiva, en Scheme esto no es algo muy sencillo de lograr, pero la utilidad que posee para utilizar la recursividad resultó muy útil para la implementación del backtracking, claro, dejando de lado la complejidad que este posee en su sintaxis y comprensión.
 
 \end{document}
 \end{document}

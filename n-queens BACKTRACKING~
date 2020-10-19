@@ -1,0 +1,96 @@
+;Ultimo elemento de la lista
+;Dominio: Recibe una lista n.
+;Codominio: EL ultimo elemento de una lista.
+(define last
+  (lambda (n)
+    (cond ((null?(cdr n)) (car n))
+          (else (last (cdr n))))))
+
+;Dominio: Una lista
+;Codominio: Una lista con un elemento extra al final, este elemento siempre es un 1.
+(define cambio
+  (lambda (l)
+    (cond ((null? (cdr l)) (list (+ (car l) 1)))
+          (else (append (list (car l)) (cambio (cdr l))))
+          )))
+
+;Dominio: Una lista posible solución list, la etapa actual etapa y un auxiliar para recorrer la lista solución hasta length list-1
+;Codominio: true si la lista solución es valida para la etapa actual, false si el vector no es valido como solución.
+(define valido_aux
+  (lambda (list etapa n)
+    (cond ((equal? n etapa) #t)
+          ((equal? (element-at n list) (element-at etapa list)) #f )
+          ((equal? (abs n etapa) (abs (element-at n list) (element-at etapa list) )) #f)
+          (else (valido_aux list etapa (+ n 1)))
+          )))
+
+;Dominio: Una lista posible solución list, la etapa actual etapa recorrer la lista solución hasta length list-1
+;Codominio: true si la lista solución es valida para la etapa actual, false si el vector no es valido como solución.
+(define valido
+  (lambda (list etapa)
+    (valido_aux list etapa 1 )))
+
+
+;Dominio: 2 números
+;Codominio: el valor absoluto de la resta de ambos números.
+(define abs
+  (lambda (x y)
+    (cond ((> x y) (- x y))
+          (else (- y x)))))
+
+;Dominio: Una lista m y un entero que representa una posición.
+;Codominio: El elemento de la lista en la posición k.
+
+(define element-at_aux
+    (lambda (m k)
+      (cond ((eq? m 1) (car k))
+            (else (element-at_aux(- m 1) (cdr k))))))
+
+;Dominio: Una lista m y un entero que representa una posición.
+;Codominio: El elemento de la lista en la posición k.
+(define element-at
+  (lambda (n m)
+    (cond ((equal? #f (> n (length m))) (element-at_aux n m))
+          (else #f))))
+
+;Dominio: Una lista list, un par de auxiliares para manejar coordenadas de fila y columna (i,j), un Auxiliar para recorrer
+;la lista N
+;Codominio: Imprime en pantalla la lista que recibe en forma de tablero para el problema de n-reinas
+
+(define print-aux
+  (lambda (list i j N)
+    (cond ((> i (length list)) (display "\n"))
+          ((> j (length list)) (display "\n") (print-aux list (+ 1 i) 1 (+ 1 N)))
+          ((equal? j (element-at N list)) (display "\u2655 ") (print-aux list i (+ 1 j) N))
+          (else (display "\u25A1 ") (print-aux list i (+ 1 j) N))
+          )))
+
+;Dominio: una lista
+;Codominio: La impresión en forma de tablero de la lista ingresada
+(define print
+  (lambda (list)
+    (print-aux list 1 1 1)))
+
+
+;Función principal auxiliar:
+;Dominio: recibe la cantidad de reinas n, el limite de soluciones f, una lista solución sol, la etapa actual etapa y un auxiliar para contar
+;la cantidad de soluciones que hay hasta el momento.
+;Codominio: Una lista de listas solución. 
+
+(define solve_aux
+  (lambda (n f sol etapa aux)
+    (cond ((equal? (length aux) f) (append '() aux))
+          ((equal? (last sol) (+ 1 n)) aux)
+          ((equal? #t (valido sol etapa))  (cond ((equal? (length sol ) n) (append aux (list sol)))
+                                                 (else (solve_aux n f (cambio sol) etapa (solve_aux n f (append sol (list 1)) (+ 1 etapa) aux)))
+                                            )) 
+          (else (solve_aux n f (cambio sol) etapa aux))
+          )))
+
+;Función principal.
+;Dominio: la cantidad de reinas n y el limite de soluciones f.
+;Codominio: la impresión en pantalla de los tableros basados en listas solución
+
+(define backtrackingNReinas
+  (lambda (n f)
+    (for-each print (solve_aux n f '(1) 1 '()))))
