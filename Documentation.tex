@@ -4,9 +4,10 @@
 \usepackage{textcomp}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage[nottoc,numbib]{tocbibind}
 \graphicspath{ {./images/} {./images2/} }
 \usepackage[left=2cm,right=2cm,top=3cm,bottom=2cm]{geometry}
-\author{Mario Arguello, Josué Céspedes Miranda}
+\author{Mario Arguello Borge, Josué Céspedes Miranda}
 \title{Proyecto 0}
 \begin{document}
 \begin{titlepage}
@@ -48,7 +49,7 @@ Eddy Miguel Ramírez\\
 \vspace*{1cm}
 Estudiantes: \\
 \vspace*{5mm}
-Mario Arguello \\
+Mario Arguello Borge \\
 Josué Céspedes Miranda \\
 \end{large}
 \vspace*{1cm}
@@ -61,13 +62,13 @@ II CICLO\\
 \pagebreak
 \section{Resumen ejecutivo}
 \bigskip
- 	El presente trabajo esta realizado con el objetivo de hacer un uso práctico de distintos modelos con el fin de brindar una solución al popular problema NReinas bajo el uso de un paradigma funcional, que permita conocer nuevos conceptos y permita establecer diferentes perspectivas a la hora de brindar soluciones a distintos problemas mediante programación. \\
+ El presente trabajo esta realizado con el objetivo de hacer un uso práctico de distintos modelos con el fin de brindar una solución al popular problema NReinas bajo el uso de un paradigma funcional, que permita conocer nuevos conceptos y permita establecer diferentes perspectivas a la hora de brindar soluciones a distintos problemas mediante programación. \\
  	
- 	El problema de NReinas es un acertijo con bastante popularidad, propuesto por el ajedrecista alemán Maxx Bezzel en 1848, consiste en colocar N reinas en un tablero con dimensiones NxN, su principal desafío radica en colocar las N reinas, mencionadas anteriormente, de tal manera que ninguna reina quede atacando otra. Dado que en el ajedrez esta pieza puede atacar a las piezas que se encuentren en su misma fila, misma columna, o en sus respectivas diagonales. \\
+ El problema de NReinas es un acertijo con bastante popularidad, propuesto por el ajedrecista alemán Maxx Bezzel en 1848, consiste en colocar N reinas en un tablero con dimensiones NxN, su principal desafío radica en colocar las N reinas, mencionadas anteriormente, de tal manera que ninguna reina quede atacando otra. Dado que en el ajedrez esta pieza puede atacar a las piezas que se encuentren en su misma fila, misma columna, o en sus respectivas diagonales. \\
  	
- 	En este documento se detallan dos posibles métodos para dar solución al problema explicado previamente. La primera, y más común a la hora de resolver este algoritmo, es una solución implementando backtracking, la cual se ha diseñado y escrito en Scheme, el cual como se mencionó al inicio tiene características de programación funcional y es un subconjunto del lenguaje de programación LISP; fue desarrollado en el MIT (Massachusetts Institute of Technology). La segunda solución ha sido implementada sobre algoritmos genéticos, se ha trabajado con elitismo y con un porcentaje de mutación de un 5\%, la solución para este caso esta escrita en Erlang, el cual es también es un lenguaje de programación funcional de alto nivel, diseñado en los años 80 en los laboratorios de Ciencias y Computación de la compañía de telefonía sueca Ericsson, y fue diseñado para escribir aplicaciones concurrentes y distribuidas de funcionamiento ininterrupido. \\
+ En este documento se detallan dos posibles métodos para dar solución al problema explicado previamente. La primera, y más común a la hora de resolver este algoritmo, es una solución implementando backtracking, la cual se ha diseñado y escrito en Scheme, el cual como se mencionó al inicio tiene características de programación funcional y es un subconjunto del lenguaje de programación LISP; fue desarrollado en el MIT (Massachusetts Institute of Technology). La segunda solución ha sido implementada sobre algoritmos genéticos, se ha trabajado con elitismo y con un porcentaje de mutación de un 5\%, la solución para este caso esta escrita en Erlang, el cual es también es un lenguaje de programación funcional de alto nivel, diseñado en los años 80 en los laboratorios de Ciencias y Computación de la compañía de telefonía sueca Ericsson, y fue diseñado para escribir aplicaciones concurrentes y distribuidas de funcionamiento ininterrupido. \\
  	
- 	Además, este trabajo pretende plasmar las distintas diferencias presentes en los métodos utilizados para dar solución al problema, establecer una comparación basada en el tiempo de ejecución de cada una de las soluciones y que permita obtener como resultado cual presenta mejores características de desempeño. Por otra parte, ambas soluciones representan una oportunidad para los estudiantes participantes en conocer nuevos paradigmas, poder incursionar en temas de mucho interés como en el caso de algoritmos genéticos que  son temas muy amplios y que lamentablemente es díficil encontrar en un curso dentro del programa de la carrera de Ingeniería en Sistemas de Información en la Universidad Nacional de Costa Rica que abarque la investigación e implementación de este tipo de algoritmos, que se encuentran relacionados a temas de inteligencia artificial y que son utilizados para resolver problemas de búsqueda y optimización, que concuerdan con los parámetros necesarios para dar una solución al problema de NReinas. Por lo que este proyecto representa: 1) un reto, por la parte de investigación y la utilización de un paradigma distinto a la programación orientada a objetos(POO), que incluye un cambio en la forma de pensar, y 2) la oportunidad de aprender temas nuevos y relevantes que pueden llegar a tener un impacto positivo en un futuro profesional. \\
+ Además, este trabajo pretende plasmar las distintas diferencias presentes en los métodos utilizados para dar solución al problema, establecer una comparación basada en el tiempo de ejecución de cada una de las soluciones y que permita obtener como resultado cual presenta mejores características de desempeño. Por otra parte, ambas soluciones representan una oportunidad para los estudiantes participantes en conocer nuevos paradigmas, poder incursionar en temas de mucho interés como en el caso de algoritmos genéticos que  son temas muy amplios y que lamentablemente es díficil encontrar en un curso dentro del programa de la carrera de Ingeniería en Sistemas de Información en la Universidad Nacional de Costa Rica que abarque la investigación e implementación de este tipo de algoritmos, que se encuentran relacionados a temas de inteligencia artificial y que son utilizados para resolver problemas de búsqueda y optimización, que concuerdan con los parámetros necesarios para dar una solución al problema de NReinas. Por lo que este proyecto representa: 1) un reto, por la parte de investigación y la utilización de un paradigma distinto a la programación orientada a objetos(POO), que incluye un cambio en la forma de pensar, y 2) la oportunidad de aprender temas nuevos y relevantes que pueden llegar a tener un impacto positivo en un futuro profesional. \\
  	
  	Aquí se documentan la descripción de las soluciones, los principales problemas encontrados durante su desarrollo, aprendizajes obtenidos, se adjuntan los resultados de las pruebas efectuadas y demás aspectos concernientes para el proyecto.
  	
@@ -176,6 +177,105 @@ Para describir la solución de algoritmos genéticos, primero es importante defi
 \item Generaciones: son el producto de los cruces de las población, entre más generaciones haya se espera que sea más precisa la aproximación a la respuesta correcta.
 \item Mutación: proceso por el cual un crosoma es alterado, se ha trabajado con un 5\% de probalidad de mutación y la estrategia utilizada se basa en escoger dos posiciones de los cromosomas del individuo e intercambiar dichas posiciones, esto con el fin de preservar el fitness que fue calculado para dicho individuo.
 \end{itemize}
+Una vez entendido los conceptos esenciales para el algoritmo genético, es posible arrancar con la explicación técnica que ha llevado acabo para dar una solución al problema ya mencionado. Se han implementado una serie de funciones primordiales, dichas funciones comprenden:
+\begin{enumerate}
+\item \textbf{Inicialización de población}: este es el primer paso del algoritmo diseñado, se encarga de inicializar una población en base al parámetro N, que hace referencia al número de reinas, para este caso se ha utilizado una población de tamaño fijo, dado por N * 4, dicha población se presenta es una lista de tamaño 16, donde cado uno de sus elementos posee N genes diferentes, que corresponden a las posiciones de las filas en relación al tablero de ajedrez. La inicialización de esta población se ha realizado haciendo uso de las siguientes funciones:
+\begin{verbatim}
+poblacion(N) when is_integer(N) -> poblacion(N, N * 4, []).
+poblacion(_, 0, R) -> R;
+poblacion(N, C, R) -> poblacion(N, C-1, [poblacion_aux(N)|R]).
+\end{verbatim} 
+\begin{verbatim}
+poblacion_aux(N) -> mezclar(lists:seq(1, N)).
+\end{verbatim}  
+\begin{verbatim}
+mezclar(L) when is_list(L) -> 
+[Y||{_,Y} <- lists:sort([ {rand:uniform(), N} || N <- L])].
+\end{verbatim}  
+Estas tres funciones generan una estructura de datos que contiene 16 individuos, compuestos por genes de 1 a N. La salida en consola al ejecutar esta función se ve de la siguiente forma:
+\begin{figure}[htp]
+\centering
+\includegraphics[width=6cm]{imagenes/g1.png} 
+\caption{Población generada para un N = 4}
+\label{foto}
+\end{figure}
+
+\item \textbf{Cálculo de fitness}: esta función es fundamental es el desempeño del algoritmo, se encarga de evaluar todas los genes(posiciones) de un invidividuo para poder determinar que tan apto es con respecto a la necesidad del problema, que ninguna posición de la reina ataque a otra reina. Para este caso el valor de la función se encuentra dado por el número de colisiones o ataques presentes en los genes de un individuo en particular. A menor cantidad de ataques mejor calificado se encuentra el individuo y sus probabilidades de poder existiendo son mayores.
+\begin{verbatim}
+aptitud(L, N, C) when N > 3 -> lists:reverse(aptitud(L, N, C, [])).
+aptitud([], _, 0, R) -> R;
+aptitud([H|T], N, C, R) -> aptitud(T, N, C-1, [suma_colisiones(H,N)|R] ).
+\end{verbatim}
+\begin{verbatim}
+suma_colisiones(L, N) -> suma_colisiones(L, 0, N, 0).
+suma_colisiones(_, N, N, R) -> R;
+suma_colisiones(L, I, N, R) -> suma_colisiones(L, I+1, N, f1(L, N, I+1) + R).
+\end{verbatim}
+\item \textbf{Crossover}: es la función más importante del algoritmo, para cada par de padres que se cruzan, se elige un punto que  tiene la forma N/2, intentando de esta forma escoger de manera equitativa la cantidad de ambos padres, una vez escogido este punto se unen los genes del primer padre de 1 hasta N/2, y luego se unen los del segundo padre de N/2 a N.
+\begin{verbatim}
+cruces(L, E, N, C) -> cruce(L, N, C-1, [E]).
+cruce(_, _, 0, R) -> lists:reverse(R);
+cruce(L, N, C, R) ->  cruce(L, N, C-1, [cruce_aux(L, N, N*4)|R]).
+\end{verbatim}
+\begin{verbatim}
+cruce_aux(L, N, C) -> X1 = rand:uniform(C),
+                      X2 = rand:uniform(C), 
+                      padres(L, N, X1, X2).
+\end{verbatim}
+Para poder visualizarlo de una mejor manera, se puede apreciar la siguiente imagen:
+\begin{figure}[htp]
+\centering
+\includegraphics[width=6cm]{imagenes/g2.png} 
+\caption{Crossover implementado}
+\label{foto}
+\end{figure}
+\newpage
+\item \textbf{Mutación}: la función de mutación se encarga en alterar el orden del los genes de un individuo. Se compone de las siguientes funciones:
+\begin{verbatim}
+mutacion(P, N) ->  Gen1 = rand:uniform(N),
+                   Gen2 = rand:uniform(N),
+                   mutar(lists:nth(Gen1, P), lists:nth(Gen2, P), P).
+\end{verbatim}
+\begin{verbatim}
+mutar(Gen1, Gen1, List) -> List;
+mutar(Gen1, Gen2, List) -> {P1, P2} = {min(Gen1,Gen2), max(Gen1,Gen2)},
+                           {L1, [Elem1 | T1]} = lists:split(P1-1, List),
+                           {L2, [Elem2 | L3]} = lists:split(P2-P1-1, T1), 
+                           lists:append([L1, [Elem2], L2, [Elem1], L3]).
+\end{verbatim}
+ Su trabajo es muy sencillo, básicamente se genera un número aleatorio dentro de 0 a 1, si ese número de encuentra dentro del porcentaje de mutación utilizado(5\%) se genera una alteración de dos genes que son escogidos también de manera aleatoria, pero su espacio de posibles valores toma de 1 a N, tenemos entonces: \\
+ \begin{figure}[htp]
+\centering
+\includegraphics[width=6cm]{imagenes/g3.png} 
+\caption{Ejemplo de mutación implementada}
+\label{foto}
+\end{figure}
+\newpage
+En la imagen anterior podemos ver un sencillo ejemplo de como trabaja la función, de un individuo en particular se generan dos valores aleatorios, sucede un intercambio de estos valores y el resultado es un nuevo individuo que puede ser favorecido o no por la mutación. \\
+La mutación sucede en la función de cruces descrita previamemte, una vez que se ha generado un nuevo individuo, se genera un valor aleatorio que determina si corresponde la aplicación de mutación. 
+
+\item \textbf{Función principal}: es la función controladora de la ejecución del programa, se encarga de utilizar todas las funciones que se han explicado anteriormente, determina cuando se ha encontrado una solución y se encarga de llamar a funciones auxiliares que se encargan de imprimir la solución encontrada, cabe destacar que este algoritmo finaliza su ejecución una vez que se encuentra una solución. La función es:
+\begin{verbatim}
+geneticosNReinas(N) when N > 3 -> 
+                    Poblacion = poblacion(N),
+                    calcular(?MAX_CRUCES, Poblacion, N, N*4).
+\end{verbatim}
+\begin{verbatim}
+calcular(0, _, _, _) -> [];
+calcular(C, P, N, C) -> A = aptitud(P, N, C),
+                        Min = trunc(lists:min(A)),      
+                        Pos = min_pos(A, Min, 1),
+                        Elite = lists:nth(Pos, P),
+                        case Min == 0 of
+                        true -> 
+                             mostrarSolucion(Elite, N, N, C, []);
+                        false -> 
+                             eliteActual(Elite, C),
+                             N_P = cruces(P, Elite, N, C),
+                             calcular(C-1, N_P, N, C) end.
+\end{verbatim}
+Aquí se puede apreciar el ciclo de vida del algoritmo, cabe resaltar que la cantidad máxima de cruces para el algoritmo quedó definido en 1000 cruces, por lo que si efectuados 1000 cruces no hay una solución de resolución finalizara la ejecución. 
+\end{enumerate}
 \end{enumerate}
 \pagebreak
 \section{Resultados de las pruebas}
@@ -209,12 +309,38 @@ Con estas observaciones podemos concluir que el algoritmo de backtracking es sup
 
 \pagebreak
 \section{Conclusiones}
-
-Tomando en cuenta lo expuesto, podemos concluir que la implementación de ambos algoritmos es completamente funcional, mas no optima en todas las situaciones para las que esta pueda ser utilizada, esto debido a sus enfoques de implementación y el sistema utilizado por cada algoritmo para encontrar la solución, así mismo un punto importante es la facilidad de implementación de dichos algoritmos, en la cual el backtracking resulta ser muy sencillo en comparación al algoritmo genético.
+Tomando en cuenta lo expuesto, podemos concluir que la implementación de ambos algoritmos es completamente funcional, mas no optima en todas las situaciones para las que esta pueda ser utilizada, esto debido a sus enfoques de implementación y el sistema utilizado por cada algoritmo para encontrar la solución, así mismo un punto importante es la facilidad de implementación de dichos algoritmos, en la cual el backtracking resulta ser muy sencillo en comparación al algoritmo genético. \\
 
 El calculo sistemático que provee el backtracking resulta en una velocidad mayor y constante, también nos permite tener al alcance todas o unas cuantas  soluciones posibles, las cuales siempre serán las mismas, en el mismo orden, claro, todo esto enfocándonos al calculo de soluciones para una cantidad no muy grande de reinas; Por otro lado, cuando nos referimos a los algoritmos genéticos para la implementación de este problema, podemos mencionar la ventaja superior en el calculo de soluciones para situaciones en las que el numero de soluciones necesarias sea muy pequeña pero la cantidad de reinas sea muy grande, también mencionar el hecho de que su aleatoriedad que aunque altera el tiempo de ejecución para una misma cantidad de reinas,  resulta muy útil cuando se necesitan soluciones distintas para una misma reina.
+\\
 
 Refiriéndonos a los lenguajes utilizados, Erlang posee una sintaxis mucho mas sencilla de entender y utilizar, especialmente para la implementación del algoritmo genético, ya que este necesita manejar aleatoriedad, construcción de listas e interpretación de evaluaciones constantes, para conseguir la metodología evolutiva, en Scheme esto no es algo muy sencillo de lograr, pero la utilidad que posee para utilizar la recursividad resultó muy útil para la implementación del backtracking, claro, dejando de lado la complejidad que este posee en su sintaxis y comprensión.
+\\
+\newpage
+\section{Aprendizajes}
+\bigskip
+	Como parte de los aprendizajes que se han logrado obtener durante el desarollo del proyecto NQueens resaltan los  siguientes:
+	\begin{enumerate}
+		\item Uno de los retos cuando fue asignado el proyecto era poder cambiar la forma de pensamiento, poder desarrollar un solución óptima no solo requería entender el problema, había que interiorizar de buena manera la lógica del paradigma sobre el cual iba a estar construida dicha solución. Por otra parte, eran dos lenguajes distintos, pese a trabajar bajo el mismo paradigma funcional, presentaban características de sintaxis muy distintas entre ellos. De manera de aprendizaje es posible destacar lo importante de la investigación por parte de los miembros del proyecto, cada uno se comprometío a investigar y poder entregar una solución, lo cual fue muy beneficioso para el bien del proyecto.
+	\item Conocimiento de la estrategia de backtracking, como puede ser aplicado para resolver múltiples problemas y que en lenguajes funcionales como Scheme resultan ser muy potentes. Se pudo observar que mediante esta estrategia es posible obtener  todo el árbol de soluciones de un problema, de esta forma mediante el uso de otra técnica en conjunto con esta se puede encontrar la solución más óptima a un problema.
+	\item Primer acercamiento a tecnología relacionadas a inteligencia artificial, el tema de algoritmos genéticos describe los procesos que rigen la vida de los seres vivos, y como dichos procesos pueden ser aplicados en resolver problemas que en principio no tendrían ninguna relación. Es sencillamente interesante poder plasmar mediante código de programación la forma en como la vida misma ha evolucionado durante millones de años. Este tipo de ejercicios abre una puerta por la cual el estudiante puede empezar a conocer nuevas aplicaciones de tecnologías, tanto en el campo de investigación como su aplicación directa sobre distintos problemas de la vida cotidiana.
+	 \item Uso de nuevas herramientas, no solo los lenguajes sobre los cuales han sido desarolladas las soluciones, también se fortalece el conocimiento de Latex como una poderosa herramienta de documentación profesional.
+	\end{enumerate}
+\newpage
+\begin{thebibliography}{20}
+\bibitem{Genetic vs Backtracking}{Arkar, U., Nag, S. 2017. An Adaptive Genetic Algorithm for Solving N-Queens Problem. [online]. Available at: https://arxiv.org/abs/1802.02006}
+\bibitem{a}{Canela, A y González, B. 2014. Ilustración representativa de la metodología backtracking en el problema de las N-reinas. [online] Available at: http://estructuradedatos2backtracking.blogspot.com/2014/}
+\bibitem{a}{Canela, A y González, B. 2014. BACKTRACKING [online]. Available: http://estructuradedatos2backtracking.blogspot.com/2014/ }
+\bibitem{a}{Ecured.cu. 2020. Scheme - Ecured. [online] Available at: https://www.ecured.cu/Scheme }
+\bibitem{a}{Ecured.cu. 2020. Erlang - Ecured. [online] Available at: https://www.ecured.cu/Erlang }
+\bibitem{a}{Kora, Padmavathi, Yadlapalli, Priyanka. 2017. Crossover Operators in Genetic Algorithms: A Review. International Journal of Computer Applications.  [online]. Available at: https://www.researchgate.net/publication/315175882/}
+\bibitem{Genetic vs Backtracking}{Medium. 2020. Genetic Algorithm Vs. Backtracking: N-Queen Problem. [online] Available at: https://towardsdatascience.com/genetic-algorithm-vs-backtracking-n-queen-problem-cdf38e15d73f}
+\bibitem{Genetic vs Backtracking}{Notxor.nueva-actitud.org. 2020. Mis Impresiones Sobre Erlang - Notxor Tiene Un Blog. [online] Available at: https://notxor.nueva-actitud.org/blog/2020/07/25/mis-impresiones-sobre-erlang/}
+\bibitem{Genetic vs Backtracking}{Rubicite.com. 2020. Order 1 Crossover Operator Tutorial. [online]. Available at: http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/Order1CrossoverOperator.aspx}
+\bibitem{Genetic vs Backtracking}{Thede, S. 2020. A Generalized Parallel Genetic Algorithm In Erlang. [online]. Available at: https://www.academia.edu/16713281/}
+\bibitem{Genetic vs Backtracking}{Vanacore, C (2019, mayo 24). “Backtracking and Crossword Puzzles” [online]. Available at: https://medium.com/@vanacorec/backtracking-and-crossword-puzzles-4abe195166f9}
+
+\end{thebibliography}
 
 \end{document}
 \end{document}
